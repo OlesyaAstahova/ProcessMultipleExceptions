@@ -15,20 +15,13 @@ namespace ProcessMultipleExceptions
             public string CauseOfError { get; set; }
             public CarIsDeadException() { }
             //Передача сообщения конструктору родительского класса
-            public CarIsDeadException(string message, string cause, DateTime time)
+            public CarIsDeadException(string message, string cause, DateTime time) : base (message)
             {
                 // messageDetails = message;
                 CauseOfError = cause;
                 ErrorTimeStamp = time;
             }
-            //Переопределение свойства Exception.Message
-            /*    public override string Message
-                {
-                    get
-                    {
-                       return string.Format("Car Error Message: {0}", messageDetails);
-                    }
-                }*/
+           
 
     }
 }

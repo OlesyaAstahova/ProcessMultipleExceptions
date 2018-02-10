@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ProcessMultipleExceptions
 {
-   
+
     class Car
     {
-        //Константа для представления макс скорости
-        public const int MaxSpeed = 100;
 
+
+        public int MaxSpeed { get; set; }
         //Свойства автомобиля
         public int CurrentSpeed { get; set; }
         public string PetName { get; set; }
@@ -25,56 +25,49 @@ namespace ProcessMultipleExceptions
 
         //Конструкторы
         public Car() { }
-        public Car (string name, int speed)
+        public Car(string name, int speed)
         {
-            CurrentSpeed = speed;
+            MaxSpeed = speed;
             PetName = name;
+            carIsDead = false;
         }
-        public void CrankTunes (bool state)
+        public void CrankTunes(bool state)
         {
             //Делегировать запрос внутреннему объекту 
             theMusicBox.TurnOn(state);
         }
         //Проверить, не перегрелся ли автомобиль (должно генерироваться исключение)
-        public void Accelerate (int delta)
+        public void Accelerate(int delta)
         {
-         //       if (carIsDead)
-            //    {
-            //       Console.WriteLine("{0} is out of order...", PetName);
-           //    }
-            //   else
-          //    {
-          //   CurrentSpeed += delta;
-          //      if (CurrentSpeed >= MaxSpeed)
-           //     {
-            //        carIsDead = true;
-           //         CurrentSpeed = 0;
-            //        Console.WriteLine("{0} has overheated!", PetName);
-             //       carIsDead = true;
 
-                    //Создать локальную переменную перед генерацией объекта Exception, чтобы можно было обращаться к свойству HelpLink
-              //      Exception ex = new Exception(string.Format("{0}  has overheated!", PetName));
-             //       ex.HelpLink = "http://www.CarsRUs.com";
-
-                    //Указать специальные данные, касающиеся ошибки
-                    // ex.Data.Add("TimeStamp", string.Format("The car exploaded at {0}", DateTime.Now));
-                    // ex.Data.Add("Cause", "You have a lead foot");
-
-                    if (delta < 0)
-                        // CarIsDeadException ex = new CarIsDeadException(string.Format("{0} has overheated!", PetName), "You have a lead foot", DateTime.Now);
-                        // ex.HelpLink = "http://www.CarsRUs.com";
-
+            if (delta < 0)
                         throw new ArgumentOutOfRangeException("delta", "Speed must be greater than zero!");
 
-
-                    // Использовать ключевое слово throw для генерации исключения
-                 //   throw new Exception(string.Format("{0} has overheated!", PetName));
-             ///   }
-             //   else
-             //   {
-              //      Console.WriteLine("=> CurrentSpeed = {0}", CurrentSpeed);
-             //   } }
+            if (carIsDead)
+            {
+                Console.WriteLine("{0} is out of order...", PetName);
             }
+            else
+            {
+                CurrentSpeed += delta;
+                if (CurrentSpeed >= MaxSpeed)
+                {
+                    carIsDead = true;
+                    Console.WriteLine("{0} has overheated!", PetName);
+                    Console.WriteLine(MaxSpeed);
+
+                    CarIsDeadException ex = new CarIsDeadException(string.Format("{0} has overheated!", PetName), "You have a lead foot", DateTime.Now);
+                    ex.HelpLink = "http://www.CarsRUs.com";
+                    if (carIsDead) throw ex;
+
+                       }
+                    else
+                    {
+                        Console.WriteLine("MaxSpeed = {0}", MaxSpeed);
+                    Console.WriteLine("Current Speed = {0}", CurrentSpeed);
+                }
+                } 
         }
     }
+}
 
