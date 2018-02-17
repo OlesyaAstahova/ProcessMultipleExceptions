@@ -13,21 +13,32 @@ namespace ProcessMultipleExceptions
         {
             Console.WriteLine("***** Handling Multiple Exceptions *****\n");
             Car myCar = new Car("Rusty", 90);
+            myCar.CrankTunes(true);
             myCar.CurrentSpeed = 0;
             try
             {
                 //Arg вызовет исключение выхода за пределы диапазона
-                myCar.Accelerate(160);
+                myCar.Accelerate(10);
             }
            
             catch (CarIsDeadException e)
             {
-                //Попытаться открыть файл carErrors.txt на диске С:
-                FileStream fs = File.Open(@"C:\carErrors.txt", FileMode.Open);
-              
+                Console.WriteLine(e.Message);
             }
-             
-            
+            catch (ArgumentOutOfRangeException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                //Этот код будет выполняться всегда, возникало исключение или нет
+                myCar.CrankTunes(false);
+            }
+
             Console.ReadLine();
         }
     }
