@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,10 +20,11 @@ namespace ProcessMultipleExceptions
                 myCar.Accelerate(160);
             }
            
-            catch
+            catch (CarIsDeadException e)
             {
-                //Выполнение любую часьтчную обработку этой ошибки и передать ответственность далее
-                throw;
+                //Попытаться открыть файл carErrors.txt на диске С:
+                FileStream fs = File.Open(@"C:\carErrors.txt", FileMode.Open);
+              
             }
              
             
