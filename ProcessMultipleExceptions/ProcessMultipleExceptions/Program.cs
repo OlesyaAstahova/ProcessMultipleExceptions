@@ -21,7 +21,8 @@ namespace ProcessMultipleExceptions
            
             catch
             {
-                Console.WriteLine("Something bad happened...");
+                //Выполнение любую часьтчную обработку этой ошибки и передать ответственность далее
+                throw;
             }
              
             
